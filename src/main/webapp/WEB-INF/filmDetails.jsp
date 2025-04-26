@@ -33,8 +33,8 @@
 	</form><br><br>
 	<p>Would you like to update this film?</p>
 	<form action="updateFilm.do" method="GET">
-	<input type="submit" value="Yes" name="Yes"></input>
-	<input type="submit" value="No" name="No"></input>
+	<input type="hidden" name="filmId" value="${film.id}">
+	<input type="submit" value="Update" name="Update"></input>
 	</form>
     </c:when>
     

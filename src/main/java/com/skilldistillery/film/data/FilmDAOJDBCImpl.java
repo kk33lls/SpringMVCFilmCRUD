@@ -182,8 +182,8 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			// start transaction
 			conn.setAutoCommit(false);
 
-			String sql = "INSERT INTO film (id, title, description, release_year, language_id, "
-					+ "rental_duration, rental_rate, length, repalcement_cost, rating, special_features)"
+			String sql = "INSERT INTO film (title, description, release_year, language_id, "
+					+ "rental_duration, rental_rate, length, replacement_cost, rating, special_features)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -197,8 +197,11 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			statement.setDouble(8, newFilm.getReplacementCost());
 			statement.setString(9, newFilm.getRating());
 			statement.setString(10, newFilm.getSpecialFeatures());
-
+			
+			System.out.println(newFilm);
+			System.out.println(statement);
 			int updateCount = statement.executeUpdate();
+			
 
 			if (updateCount == 1) {
 				ResultSet keys = statement.getGeneratedKeys();

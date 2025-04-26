@@ -52,10 +52,23 @@ public class FilmController {
 		return mv;
 	}
 	@RequestMapping(path = "updateFilm.do", method = RequestMethod.GET)
-	public ModelAndView updateFilm(@RequestParam("Yes") Film filmToUpdate) {
-	    Film updatefilm = filmDAO.updateFilm(filmToUpdate);
+	public ModelAndView updateFilm(@RequestParam("filmId") int filmToUpdate) {
+	    Film updateFilm = new Film();
+	    updateFilm.setId(filmToUpdate);
+	    filmDAO.updateFilm(updateFilm);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("update");
+		return mv;
+	}
+	@RequestMapping(path = "updatedFilm.do", method = RequestMethod.POST)
+	public ModelAndView updatingFilm(Film updatedFilm) {
+		Film createFilm = filmDAO.updateFilm(updatedFilm);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
+		mv.addObject("film", updatedFilm);
+		if (createFilm == null) {
+			mv.addObject("Error", "Unable to add Film");
+		}
 		return mv;
 	}
 
