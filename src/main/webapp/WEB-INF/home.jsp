@@ -11,10 +11,16 @@
 
 	<h1>Welcome to Film Site</h1>
 	<h3>Search Film By Id</h3>
-	<form action="home.do" method="GET">
+	<form action="getFilm.do" method="GET">
 	<input type="text" name="filmId" placeholder="Enter a Film ID"/>
 	<input type="submit" value="Submit"></input>
 	</form> 
+	
+	<h3>Add Film</h3>
+	<form action="home.do" method="GET">
+	<input type="text" name="filmId" placeholder="Enter a Film ID"/>
+	<input type="submit" value="Submit"></input>
+	</form>
 	
 </body>
 </html>

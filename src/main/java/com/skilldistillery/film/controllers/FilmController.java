@@ -22,13 +22,13 @@ public class FilmController {
 	private String goHome(Model model) {
 		return "home";
 	}
-	@RequestMapping(path="home.do", method=RequestMethod.GET)
+	@RequestMapping(path="getFilm.do", method=RequestMethod.GET)
 	public ModelAndView getFilmId(@RequestParam("filmId") int filmId){
 		Film foundFilm = filmDAO.findFilmById(filmId);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
+		mv.setViewName("filmDetails");
 		mv.addObject("film", foundFilm);
-		return null;
+		return mv;
 	}
 }
 
