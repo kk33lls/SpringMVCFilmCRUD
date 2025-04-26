@@ -17,8 +17,8 @@
 	</form> 
 	
 	<h3>Add Film</h3>
-	<form action="home.do" method="GET">
-	<input type="text" name="filmId" placeholder="Enter a Film ID"/>
+	<form action="addFilm.do" method="POST">
+	<input type="text" name="filmTitle" placeholder="Enter film title"/>
 	<input type="submit" value="Submit"></input>
 	</form>
 	
