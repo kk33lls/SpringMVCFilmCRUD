@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.mysql.cj.x.protobuf.MysqlxSql.StmtExecute;
 import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
@@ -87,7 +88,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			ResultSet result = statement.executeQuery();
 
 			while (result.next()) {
-				
+
 				int id = result.getInt("id");
 				String title = result.getString("title");
 				String description = result.getString("description");
@@ -100,8 +101,9 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 				double replacementCost = result.getDouble("replacement_cost");
 				String rating = result.getString("rating");
 				String specialFeatures = result.getString("special_features");
-				
-				Film filmListItem = new Film(id, title, description, releaseYear, languageId, language, rentalDuration, rentalRate, length, replacementCost, rating, specialFeatures);
+
+				Film filmListItem = new Film(id, title, description, releaseYear, languageId, language, rentalDuration,
+						rentalRate, length, replacementCost, rating, specialFeatures);
 				filmList.add(filmListItem);
 			}
 			result.close();
@@ -170,22 +172,21 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		return actorsList;
 	}
 
-
 	@Override
 	public Film addFilm(Film newFilm) {
 //		Film film = null;
-		
+
 		try {
 			// Connect to database
 			Connection conn = DriverManager.getConnection(URL, user, pass);
-			//start transaction
+			// start transaction
 			conn.setAutoCommit(false);
-			
-			String sql = "INSERT INTO film (id, title, description, release_year, language_id, "
-					+ "rental_duration, rental_rate, length, repalcement_cost, rating, special_features)"
+
+			String sql = "INSERT INTO film (title, description, release_year, language_id, "
+					+ "rental_duration, rental_rate, length, replacement_cost, rating, special_features)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			statement.setString(1, newFilm.getTitle());
 			statement.setString(2, newFilm.getDescription());
 			statement.setInt(3, newFilm.getReleaseYear());
@@ -197,8 +198,10 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			statement.setString(9, newFilm.getRating());
 			statement.setString(10, newFilm.getSpecialFeatures());
 			
+			System.out.println(newFilm);
+			System.out.println(statement);
 			int updateCount = statement.executeUpdate();
-			System.out.println(updateCount + " actor record created.");
+			
 
 			if (updateCount == 1) {
 				ResultSet keys = statement.getGeneratedKeys();
@@ -206,28 +209,78 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 				newFilm.setId(filmId);
 				keys.close();
 			}
-			
+			conn.commit();
 			conn.close();
 			statement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 		return newFilm;
 	}
 
 	@Override
-	public Film updateFilm(Film upddatingFilm) {
-		// TODO Auto-generated method stub
-		return null;
+	public Film updateFilm(Film updatingFilm) {
+		try {
+			// Connect to database
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			// start transaction
+			conn.setAutoCommit(false);
+
+			String sql = " UPDATE film SET id = ?, title = ?, description = ?, release_year = ?, language_id = ?, "
+					+ "rental_duration = ?, rental_rate = ?, length = ?, repalcement_cost = ?, rating, special_features = ?"
+					+ "WHERE id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+
+			statement.setString(1, updatingFilm.getTitle());
+			statement.setString(2, updatingFilm.getDescription());
+			statement.setInt(3, updatingFilm.getReleaseYear());
+			statement.setInt(4, updatingFilm.getLanguageId());
+			statement.setInt(5, updatingFilm.getRentalDuration());
+			statement.setDouble(6, updatingFilm.getRentalRate());
+			statement.setInt(7, updatingFilm.getLength());
+			statement.setDouble(8, updatingFilm.getReplacementCost());
+			statement.setString(9, updatingFilm.getRating());
+			statement.setString(10, updatingFilm.getSpecialFeatures());
+
+			int updateCount = statement.executeUpdate();
+			
+			conn.commit();
+			conn.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return updatingFilm;
 	}
 
 	@Override
 	public void deleteFilm(Film deletingFilm) {
-		// TODO Auto-generated method stub
-		
-	}
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(URL, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+			String sql = "DELETE FROM film WHERE id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, deletingFilm.getId());
+			int updateCount = stmt.executeUpdate();
 
+			conn.commit(); // COMMIT TRANSACTION
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+				}
+			}
+
+		}
+
+	}
 
 }

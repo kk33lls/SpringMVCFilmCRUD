@@ -11,24 +11,65 @@ import org.springframework.web.servlet.ModelAndView;
 import com.skilldistillery.film.data.FilmDAO;
 import com.skilldistillery.film.entities.Film;
 
-
-
 @Controller
 public class FilmController {
 	@Autowired
 	private FilmDAO filmDAO;
-	
-	@RequestMapping(path= {"home.do", "/"})
+
+	@RequestMapping(path = { "home.do", "/" })
 	private String goHome(Model model) {
 		return "home";
 	}
-	@RequestMapping(path="getFilm.do", method=RequestMethod.GET)
-	public ModelAndView getFilmId(@RequestParam("filmId") int filmId){
+
+	@RequestMapping(path = "getFilm.do", method = RequestMethod.GET)
+	public ModelAndView getFilmId(@RequestParam("filmId") int filmId) {
 		Film foundFilm = filmDAO.findFilmById(filmId);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("filmDetails");
 		mv.addObject("film", foundFilm);
 		return mv;
 	}
-}
 
+	@RequestMapping(path = "addFilm.do", method = RequestMethod.POST)
+	public ModelAndView getAddFilm(Film filmToAdd) {
+		Film createFilm = filmDAO.addFilm(filmToAdd);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("filmDetails");
+		mv.addObject("film", filmToAdd);
+		if (createFilm == null) {
+			mv.addObject("Error", "Unable to add Film");
+		}
+		return mv;
+	}
+
+	@RequestMapping(path = "deleteFilm.do", method = RequestMethod.GET)
+	public ModelAndView deleteFilm(@RequestParam("filmId") int filmId) {
+		Film filmToDelete = new Film();
+		filmToDelete.setId(filmId);
+	    filmDAO.deleteFilm(filmToDelete);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("home");
+		return mv;
+	}
+	@RequestMapping(path = "updateFilm.do", method = RequestMethod.GET)
+	public ModelAndView updateFilm(@RequestParam("filmId") int filmToUpdate) {
+	    Film updateFilm = new Film();
+	    updateFilm.setId(filmToUpdate);
+	    filmDAO.updateFilm(updateFilm);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("update");
+		return mv;
+	}
+	@RequestMapping(path = "updatedFilm.do", method = RequestMethod.POST)
+	public ModelAndView updatingFilm(Film updatedFilm) {
+		Film createFilm = filmDAO.updateFilm(updatedFilm);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("home");
+		mv.addObject("film", updatedFilm);
+		if (createFilm == null) {
+			mv.addObject("Error", "Unable to add Film");
+		}
+		return mv;
+	}
+
+}
