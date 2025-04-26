@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 @Component
-public class FilmDaojdbcimpl implements FilmDAO {
+public class FilmDAOJDBCImpl implements FilmDAO {
 
 	@Override
 	public Film findFilmById(int filmId) {
