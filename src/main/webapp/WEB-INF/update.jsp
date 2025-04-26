@@ -18,9 +18,9 @@
 	Language Id
 	<input type="text" name="languageId" value="${film.languageId}" placeholder="Film Language ID"/><br>
 	Language Name
-	<input type="text" name="languageName" value="${film.languageName}" placeholder="Film Language Name"/><br>
+	<input type="text" name="languageName" value="English" placeholder="Film Language Name"/><br>
 	Rental Duration
-	<input type="text" name="rentalDuration" value="${film.Duration}" placeholder="Film Rental Duration"/><br>
+	<input type="text" name="rentalDuration" value="${film.rentalDuration}" placeholder="Film Rental Duration"/><br>
 	Rental Rate
 	<input type="text" name="rentalRate" value="${film.rentalRate}" placeholder="Film Rental Rate"/><br>
 	Length
