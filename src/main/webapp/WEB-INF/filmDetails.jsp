@@ -9,7 +9,41 @@
 </head>
 <body>
 
+	<c:choose>
+	<c:when test="${not empty error }">
+	<h1>${error}</h1>
+	</c:when>
+    <c:when test="${! empty film}">
+
 	<h1>${film.title}</h1>
+    <p>${film.description}</p>
+    <h4>Release year: ${film.releaseYear}</h4>
+    <h4>Rental duration: ${film.rentalDuration}
+    <span>Rental rate: ${film.rentalRate}</span>
+    <span>Rental length: ${film.length}</span></h4>
+    <h4>Replacement cost:$ ${film.replacementCost}</h4>
+    <h4>Rating: ${film.rating}</h4>
+    <h4>Special features: ${film.specialFeatures}</h4><br><br>
+    
+    <p>Would you like to remove this film?</p>
+	<form action="deleteFilm.do" method="GET">
+	<input type="hidden" name="filmId" value="${film.id}">
+	<input type="submit" value="Yes" name="Yes"></input>
+	<input type="submit" value="No" name="No"></input>
+	</form><br><br>
+	<p>Would you like to update this film?</p>
+	<form action="updateFilm.do" method="GET">
+	<input type="submit" value="Yes" name="Yes"></input>
+	<input type="submit" value="No" name="No"></input>
+	</form>
+    </c:when>
+    
+    
+    
+    <c:otherwise>
+      <p>No film found</p>
+    </c:otherwise>
+  </c:choose>
 	
 	 
 	
