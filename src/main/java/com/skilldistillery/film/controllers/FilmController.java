@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.skilldistillery.film.data.FilmDAO;
+import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
 @Controller
@@ -49,19 +50,21 @@ public class FilmController {
 	public ModelAndView deleteFilm(@RequestParam("filmId") int filmId) {
 		Film filmToDelete = new Film();
 		filmToDelete.setId(filmId);
-	    filmDAO.deleteFilm(filmToDelete);
+		filmDAO.deleteFilm(filmToDelete);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
 		return mv;
 	}
+
 	@RequestMapping(path = "updateFilm.do", method = RequestMethod.GET)
 	public ModelAndView updateFilm(@RequestParam("filmId") int filmToUpdate) {
-	    Film updateFilm = filmDAO.findFilmById(filmToUpdate);
+		Film updateFilm = filmDAO.findFilmById(filmToUpdate);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("film", updateFilm);
 		mv.setViewName("update");
 		return mv;
 	}
+
 	@RequestMapping(path = "updatedFilm.do", method = RequestMethod.POST)
 	public ModelAndView updatingFilm(Film updatedFilm) {
 		Film createFilm = filmDAO.updateFilm(updatedFilm);
@@ -73,15 +76,34 @@ public class FilmController {
 		}
 		return mv;
 	}
-	
-	@RequestMapping(path="getByKeyword.do", method= RequestMethod.GET)
+
+	@RequestMapping(path = "getByKeyword.do", method = RequestMethod.GET)
 	public ModelAndView searchFilmByKeyWord(@RequestParam("filmKeyword") String keyword) {
 		List<Film> foundKeyword = new ArrayList<>();
-		foundKeyword = filmDAO.findFilmByKeyword(keyword);
+		Film films = new Film();
 		ModelAndView mv = new ModelAndView();
+		foundKeyword = filmDAO.findFilmByKeyword(keyword);
+
+		if (foundKeyword == null) {
+			mv.addObject("Error", "Unable to find film");
+		} else {
+			for (Film film : foundKeyword) {
+				mv.addObject("film", film);
+			}
+		}
 		mv.setViewName("filmDetails");
-		mv.addObject("film", keyword);
 		return mv;
 	}
-
+	@RequestMapping(path = "findActor.do", method = RequestMethod.GET)
+	public ModelAndView searchFilmByKeyWord(int filmId) {
+		List<Actor> foundActor = new ArrayList<>();
+		ModelAndView mv = new ModelAndView();
+		foundActor = filmDAO.findActorsByFilmId(filmId);
+		
+			for (Actor actors : foundActor) {
+				mv.addObject("actor", actors);
+			}
+		mv.setViewName("filmDetails");
+		return mv;
+	}
 }

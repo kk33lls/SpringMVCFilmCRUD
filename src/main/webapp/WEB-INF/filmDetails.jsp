@@ -17,6 +17,10 @@
 
 	<h1>${film.title}</h1>
     <p>${film.description}</p>
+    <form action="findActor.do" method="GET">
+    <input type="hidden" name="${film.id}" value="${film.id}"/>
+    <p>Cast: ${actor.firstName}. ${actor.lastName}</p>
+    </form>
     <h4>Release year: ${film.releaseYear}</h4>
     <h4>Rental duration: ${film.rentalDuration}
     <span>Rental rate: ${film.rentalRate}</span>
@@ -24,6 +28,7 @@
     <h4>Replacement cost:$ ${film.replacementCost}</h4>
     <h4>Rating: ${film.rating}</h4>
     <h4>Special features: ${film.specialFeatures}</h4><br><br>
+    
     
     <p>Would you like to remove this film?</p>
 	<form action="deleteFilm.do" method="GET">
