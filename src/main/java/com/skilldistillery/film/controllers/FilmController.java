@@ -1,5 +1,8 @@
 package com.skilldistillery.film.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +71,16 @@ public class FilmController {
 		if (createFilm == null) {
 			mv.addObject("Error", "Unable to add Film");
 		}
+		return mv;
+	}
+	
+	@RequestMapping(path="getByKeyword.do", method= RequestMethod.GET)
+	public ModelAndView searchFilmByKeyWord(@RequestParam("filmKeyword") String keyword) {
+		List<Film> foundKeyword = new ArrayList<>();
+		foundKeyword = filmDAO.findFilmByKeyword(keyword);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("filmDetails");
+		mv.addObject("film", keyword);
 		return mv;
 	}
 
