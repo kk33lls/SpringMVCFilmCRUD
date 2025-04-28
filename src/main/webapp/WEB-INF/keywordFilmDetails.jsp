@@ -1,19 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Film Site</title>
+<title>Films By Keyword</title>
 </head>
 <body>
 
-	<c:choose>
+<c:choose>
 	<c:when test="${not empty error }">
 	<h1>${error}</h1>
 	</c:when>
     <c:when test="${! empty film}">
+	<c:foreach var="film" items="${film}">
+	
 	<h1>${film.title}</h1>
     <p>${film.description}</p>
     
@@ -32,7 +33,8 @@
     <h4>Replacement cost: $ ${film.replacementCost}</h4>
     <h4>Rating: ${film.rating}</h4>
     <h4>Special features: ${film.specialFeatures}</h4><br><br>
-    
+    </c:foreach>
+   
     <p>Would you like to remove this film?</p>
 	<form action="deleteFilm.do" method="GET">
 	<input type="hidden" name="filmId" value="${film.id}">
@@ -45,15 +47,10 @@
 	<input type="submit" value="Update" name="Update"></input>
 	</form>
     </c:when>
-    
-    
-    
+     
     <c:otherwise>
-      <p>No film found</p>
+      <p>No films found</p>
     </c:otherwise>
   </c:choose>
-	
-	 
-	
 </body>
 </html>
