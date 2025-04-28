@@ -15,5 +15,12 @@ This was our first full stack web application that works as a film site. On the 
 - zsh
 
 ## Concepts Applied
+- CRUD operations (Create, Read, Update, Delete)
+- DAO (Data Access Object)
+- MVC (Model View Controller)
+- Spring MVC to handle user requests and connect database
+- @RequestParam to bind it to java objects in Spring MVC
+- Displaying database information on web pages using JSP
 
 ## Lessons Learned
+- 
