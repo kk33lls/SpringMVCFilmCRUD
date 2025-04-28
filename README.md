@@ -21,6 +21,7 @@ This was our first full stack web application that works as a film site. On the 
 - Spring MVC to handle user requests and connect database
 - @RequestParam to bind it to java objects in Spring MVC
 - Displaying database information on web pages using JSP
+- ORM (Object Relational Mapping) to connect database records to java Objects through the controller and DAO
 
 ## Lessons Learned
-- 
+This was a difficult full stack web application using Spring MVC, Java, MySQL. We experienced how to connect Java programs to a MySQL database, how to handle user input through forms, and how to organize a project using the MVC structure. It was challenging to remember how to use JSP tags and connect them with conrtoller data using Object-Relational Mapping (ORM). We gained a little more confidence in working with SQL queries, JSP pages, and deploying our project to the Tomcat server.
