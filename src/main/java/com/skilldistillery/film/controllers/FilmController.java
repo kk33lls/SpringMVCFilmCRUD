@@ -35,9 +35,6 @@ public class FilmController {
 		List<Actor> foundActors = new ArrayList<>();
 		foundActors = filmDAO.findActorsByFilmId(filmId);
 		mv.addObject("actors", foundActors);
-//			for (Actor actors : foundActor) {
-//				mv.addObject("actor", actors);
-//			}
 		return mv;
 	}
 
@@ -87,10 +84,17 @@ public class FilmController {
 	@RequestMapping(path = "getByKeyword.do", method = RequestMethod.GET)
 	public ModelAndView searchFilmByKeyWord(@RequestParam("filmKeyword") String keyword) {
 		List<Film> foundKeyword = new ArrayList<>();
-//		Film films = new Film();
 		ModelAndView mv = new ModelAndView();
 		foundKeyword = filmDAO.findFilmByKeyword(keyword);
-
+		
+		for (Film film : foundKeyword) {
+			int filmID = film.getId();
+			mv.addObject("filmID", filmID);
+			List<Actor> foundActors = new ArrayList<>();
+			foundActors = filmDAO.findActorsByFilmId(filmID);
+			
+				mv.addObject("actors", foundActors);
+			}
 		if (foundKeyword == null) {
 			mv.addObject("Error", "Unable to find film");
 		} else {
@@ -99,16 +103,5 @@ public class FilmController {
 		mv.setViewName("keywordFilmDetails");
 		return mv;
 	}
-//	@RequestMapping(path = "findActor.do", method = RequestMethod.GET)
-//	public ModelAndView searchFilmByKeyWord(int filmId) {
-//		List<Actor> foundActor = new ArrayList<>();
-//		ModelAndView mv = new ModelAndView();
-//		foundActor = filmDAO.findActorsByFilmId(filmId);
-//		
-//			for (Actor actors : foundActor) {
-//				mv.addObject("actor", actors);
-//			}
-//		mv.setViewName("filmDetails");
-//		return mv;
-//	}
+
 }

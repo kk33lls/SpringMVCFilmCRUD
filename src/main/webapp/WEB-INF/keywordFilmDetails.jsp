@@ -14,19 +14,16 @@
 	<h1>${error}</h1>
 	</c:when>
     <c:when test="${! empty film}">
-	<c:foreach var="film" items="${film}">
+	<c:forEach var="film" items="${film}">
 	
 	<h1>${film.title}</h1>
     <p>${film.description}</p>
-    
-    <form action="getFilm.do" method="GET">
+    <form action="getByKeyword.do" method="GET">
     <h3>Cast:</h3>
     <c:forEach var="actor" items="${actors}">
-    <input type="hidden" name="${film.id}" value="${film.id}"/>
     <p>${actor.firstName}. ${actor.lastName}</p>
     </c:forEach>
     </form>
-    
     <h4>Release year: ${film.releaseYear}</h4>
     <h4>Rental duration: ${film.rentalDuration}</h4>
     <h4>Rental rate: ${film.rentalRate}</h4>
@@ -34,17 +31,25 @@
     <h4>Replacement cost: $ ${film.replacementCost}</h4>
     <h4>Rating: ${film.rating}</h4>
     <h4>Special features: ${film.specialFeatures}</h4><br><br>
-    </c:foreach>
+    </c:forEach>
+    
+    <%--  <form action="getByKeyword.do" method="GET">
+    <h3>Cast:</h3>
+    <c:forEach var="actor" items="${actors}">
+    <input type="hidden" name="${film.id}" value="${film.id}"/>
+    <p>${actor.firstName}. ${actor.lastName}</p>
+    </c:forEach>
+    </form> --%>
    
     <p>Would you like to remove this film?</p>
 	<form action="deleteFilm.do" method="GET">
-	<input type="hidden" name="filmId" value="${film.id}">
+	<input type="hidden" name="filmId" value="${filmID}">
 	<input type="submit" value="Yes" name="Yes"></input>
 	<input type="submit" value="No" name="No"></input>
 	</form><br><br>
 	<p>Would you like to update this film?</p>
 	<form action="updateFilm.do" method="GET">
-	<input type="hidden" name="filmId" value="${film.id}">
+	<input type="hidden" name="filmId" value="${filmID}">
 	<input type="submit" value="Update" name="Update"></input>
 	</form>
     </c:when>

@@ -20,7 +20,6 @@
     <form action="getFilm.do" method="GET">
     <h3>Cast:</h3>
     <c:forEach var="actor" items="${actors}">
-    <input type="hidden" name="${film.id}" value="${film.id}"/>
     <p>${actor.firstName}. ${actor.lastName}</p>
     </c:forEach>
     </form>
